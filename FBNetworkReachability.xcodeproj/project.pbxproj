@@ -20,6 +20,10 @@
 		4C1A0A091378B809009D78F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4C1A0A071378B809009D78F0 /* InfoPlist.strings */; };
 		4C1A0A0C1378B809009D78F0 /* FBNetworkReachabilityTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 4C1A0A0B1378B809009D78F0 /* FBNetworkReachabilityTests.h */; };
 		4C1A0A0E1378B809009D78F0 /* FBNetworkReachabilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A0A0D1378B809009D78F0 /* FBNetworkReachabilityTests.m */; };
+		4C1A0A1F1378B847009D78F0 /* FBNetworkReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */; };
+		4C1A0A201378B847009D78F0 /* FBNetworkReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */; };
+		4C1A0A2D1378BA9D009D78F0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A0A2C1378BA9D009D78F0 /* SystemConfiguration.framework */; };
+		4C1A0A981378E053009D78F0 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1A0A971378E053009D78F0 /* RootViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,19 +41,23 @@
 		4C1A09E41378B809009D78F0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C1A09E61378B809009D78F0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C1A09E81378B809009D78F0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		4C1A09EC1378B809009D78F0 /* FBNetworkReachability-Info.plist */ = {isa = PBXFileReference; path = "FBNetworkReachability-Info.plist"; sourceTree = "<group>"; };
+		4C1A09EC1378B809009D78F0 /* FBNetworkReachability-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FBNetworkReachability-Info.plist"; sourceTree = "<group>"; };
 		4C1A09EE1378B809009D78F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4C1A09F01378B809009D78F0 /* FBNetworkReachability-Prefix.pch */ = {isa = PBXFileReference; path = "FBNetworkReachability-Prefix.pch"; sourceTree = "<group>"; };
+		4C1A09F01378B809009D78F0 /* FBNetworkReachability-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FBNetworkReachability-Prefix.pch"; sourceTree = "<group>"; };
 		4C1A09F11378B809009D78F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4C1A09F31378B809009D78F0 /* FBNetworkReachabilityAppDelegate.h */ = {isa = PBXFileReference; path = FBNetworkReachabilityAppDelegate.h; sourceTree = "<group>"; };
+		4C1A09F31378B809009D78F0 /* FBNetworkReachabilityAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBNetworkReachabilityAppDelegate.h; sourceTree = "<group>"; };
 		4C1A09F41378B809009D78F0 /* FBNetworkReachabilityAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBNetworkReachabilityAppDelegate.m; sourceTree = "<group>"; };
 		4C1A09F71378B809009D78F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		4C1A09FE1378B809009D78F0 /* FBNetworkReachabilityTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FBNetworkReachabilityTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C1A0A061378B809009D78F0 /* FBNetworkReachabilityTests-Info.plist */ = {isa = PBXFileReference; path = "FBNetworkReachabilityTests-Info.plist"; sourceTree = "<group>"; };
+		4C1A0A061378B809009D78F0 /* FBNetworkReachabilityTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FBNetworkReachabilityTests-Info.plist"; sourceTree = "<group>"; };
 		4C1A0A081378B809009D78F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4C1A0A0A1378B809009D78F0 /* FBNetworkReachabilityTests-Prefix.pch */ = {isa = PBXFileReference; path = "FBNetworkReachabilityTests-Prefix.pch"; sourceTree = "<group>"; };
+		4C1A0A0A1378B809009D78F0 /* FBNetworkReachabilityTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FBNetworkReachabilityTests-Prefix.pch"; sourceTree = "<group>"; };
 		4C1A0A0B1378B809009D78F0 /* FBNetworkReachabilityTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBNetworkReachabilityTests.h; sourceTree = "<group>"; };
 		4C1A0A0D1378B809009D78F0 /* FBNetworkReachabilityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FBNetworkReachabilityTests.m; sourceTree = "<group>"; };
+		4C1A0A1D1378B847009D78F0 /* FBNetworkReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBNetworkReachability.h; sourceTree = "<group>"; };
+		4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBNetworkReachability.m; sourceTree = "<group>"; };
+		4C1A0A2C1378BA9D009D78F0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4C1A0A971378E053009D78F0 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C1A0A2D1378BA9D009D78F0 /* SystemConfiguration.framework in Frameworks */,
 				4C1A09E51378B809009D78F0 /* UIKit.framework in Frameworks */,
 				4C1A09E71378B809009D78F0 /* Foundation.framework in Frameworks */,
 				4C1A09E91378B809009D78F0 /* CoreGraphics.framework in Frameworks */,
@@ -79,7 +88,8 @@
 		4C1A09D51378B808009D78F0 = {
 			isa = PBXGroup;
 			children = (
-				4C1A09EA1378B809009D78F0 /* FBNetworkReachability */,
+				4C1A0A211378B86A009D78F0 /* FBNetworkReachability */,
+				4C1A09EA1378B809009D78F0 /* TestApplication */,
 				4C1A0A041378B809009D78F0 /* FBNetworkReachabilityTests */,
 				4C1A09E31378B809009D78F0 /* Frameworks */,
 				4C1A09E11378B809009D78F0 /* Products */,
@@ -98,6 +108,7 @@
 		4C1A09E31378B809009D78F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C1A0A2C1378BA9D009D78F0 /* SystemConfiguration.framework */,
 				4C1A09E41378B809009D78F0 /* UIKit.framework */,
 				4C1A09E61378B809009D78F0 /* Foundation.framework */,
 				4C1A09E81378B809009D78F0 /* CoreGraphics.framework */,
@@ -105,14 +116,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4C1A09EA1378B809009D78F0 /* FBNetworkReachability */ = {
+		4C1A09EA1378B809009D78F0 /* TestApplication */ = {
 			isa = PBXGroup;
 			children = (
 				4C1A09F31378B809009D78F0 /* FBNetworkReachabilityAppDelegate.h */,
 				4C1A09F41378B809009D78F0 /* FBNetworkReachabilityAppDelegate.m */,
 				4C1A09F61378B809009D78F0 /* MainWindow.xib */,
+				4C1A0A971378E053009D78F0 /* RootViewController.xib */,
 				4C1A09EB1378B809009D78F0 /* Supporting Files */,
 			);
+			name = TestApplication;
 			path = FBNetworkReachability;
 			sourceTree = "<group>";
 		};
@@ -145,6 +158,15 @@
 				4C1A0A0A1378B809009D78F0 /* FBNetworkReachabilityTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4C1A0A211378B86A009D78F0 /* FBNetworkReachability */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A0A1D1378B847009D78F0 /* FBNetworkReachability.h */,
+				4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */,
+			);
+			name = FBNetworkReachability;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +238,7 @@
 			files = (
 				4C1A09EF1378B809009D78F0 /* InfoPlist.strings in Resources */,
 				4C1A09F81378B809009D78F0 /* MainWindow.xib in Resources */,
+				4C1A0A981378E053009D78F0 /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +276,7 @@
 			files = (
 				4C1A09F21378B809009D78F0 /* main.m in Sources */,
 				4C1A09F51378B809009D78F0 /* FBNetworkReachabilityAppDelegate.m in Sources */,
+				4C1A0A1F1378B847009D78F0 /* FBNetworkReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C1A0A0E1378B809009D78F0 /* FBNetworkReachabilityTests.m in Sources */,
+				4C1A0A201378B847009D78F0 /* FBNetworkReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +450,7 @@
 				4C1A0A131378B809009D78F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C1A0A141378B809009D78F0 /* Build configuration list for PBXNativeTarget "FBNetworkReachabilityTests" */ = {
 			isa = XCConfigurationList;
@@ -433,6 +459,7 @@
 				4C1A0A161378B809009D78F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

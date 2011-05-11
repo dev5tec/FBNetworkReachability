@@ -7,16 +7,43 @@
 //
 
 #import "FBNetworkReachabilityAppDelegate.h"
+#import "FBNetworkReachability.h"
 
 @implementation FBNetworkReachabilityAppDelegate
 
 
 @synthesize window=_window;
 
+@synthesize tableView = tableView_;
+@synthesize history;
+@synthesize networkReachability;
+
+
+- (void)_didChangeConnectionMode:(NSNotification*)notification
+{
+    NSLog(@"%@", notification);
+    FBNetworkReachability* object = [notification object];
+    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [object description], @"ConnectionMode",
+                          object.ipaddress, @"IPAddress",
+                          [NSDate date], @"Timestamp",
+                          nil];
+    [self.history insertObject:dict atIndex:0];
+    [self.tableView reloadData];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
+    
+    self.history = [NSMutableArray array];
+    self.networkReachability = [FBNetworkReachability networkReachabilityWithHostname:@"www.google.com"];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_didChangeConnectionMode:) 
+                                                 name:FBNetworkReachabilityDidChangeNotification
+                                               object:nil];
+    
     return YES;
 }
 
@@ -64,5 +91,43 @@
     [_window release];
     [super dealloc];
 }
+
+#pragma mark -
+#pragma mark UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.history count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = nil;
+    
+    static NSString *cellIdentifier = @"Cell";
+    cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                       reuseIdentifier:cellIdentifier] autorelease];
+        
+    }
+    NSDictionary* dict = [self.history objectAtIndex:indexPath.row];
+    NSString* ipaddress = [dict objectForKey:@"IPAddress"];
+    NSString* title = nil;
+    if (ipaddress) {
+        title = [NSString stringWithFormat:@"%@ [%@]",
+                 [dict objectForKey:@"ConnectionMode"],
+                 ipaddress];
+    } else {
+        title = [dict objectForKey:@"ConnectionMode"];
+    }
+    cell.textLabel.text = title;
+    cell.detailTextLabel.text = [[dict objectForKey:@"Timestamp"] description];
+    
+    return cell;
+}
+
+
+#pragma mark -
+#pragma mark UITableViewDelegate
 
 @end
