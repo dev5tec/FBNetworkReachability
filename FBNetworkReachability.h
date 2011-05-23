@@ -24,11 +24,11 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 
 typedef enum {
-	kNetworkReachableUninitialization = 0,
-	kNetworkReachableNon,
-	kNetworkReachableWiFi,
-	kNetworkReachableWWAN
-} NetworkReachabilityConnectionMode;
+	FBNetworkReachableUninitialization = 0,
+	FBNetworkReachableNon,
+	FBNetworkReachableWiFi,
+	FBNetworkReachableWWAN
+} FBNetworkReachabilityConnectionMode;
 
 #define FBNetworkReachabilityDidChangeNotification @"FBNetworkReachabilityDidChangeNotification"
 
@@ -38,7 +38,7 @@ typedef enum {
 }
 
 // API
-@property (assign, readonly) NetworkReachabilityConnectionMode connectionMode;
+@property (assign, readonly) FBNetworkReachabilityConnectionMode connectionMode;
 @property (assign, readonly) BOOL reachable;
 @property (copy, readonly) NSString* ipaddress;
 + (FBNetworkReachability*)networkReachabilityWithHostname:(NSString *)hostname;

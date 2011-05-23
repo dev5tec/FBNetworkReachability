@@ -30,7 +30,7 @@ static NSMutableDictionary* networkReachabilities_;
 
 
 @interface FBNetworkReachability()
-@property (assign) NetworkReachabilityConnectionMode connectionMode;
+@property (assign) FBNetworkReachabilityConnectionMode connectionMode;
 @property (copy) NSString* ipaddress;
 - (BOOL)_startNotifier;
 - (void)_stopNotifier;
@@ -39,7 +39,7 @@ static NSMutableDictionary* networkReachabilities_;
 
 @implementation FBNetworkReachability
 
-@synthesize connectionMode;
+@synthesize connectionMode = connectionMode_;
 @synthesize ipaddress;
 
 //------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ static NSMutableDictionary* networkReachabilities_;
 		reachability_=
 			SCNetworkReachabilityCreateWithName(kCFAllocatorDefault,
 											[hostname UTF8String]);
-		self.connectionMode = kNetworkReachableUninitialization;		
+		self.connectionMode = FBNetworkReachableUninitialization;		
 		[self _startNotifier];
 	}
 	return self;
@@ -123,21 +123,21 @@ static NSMutableDictionary* networkReachabilities_;
 //	 0: no connection
 //	 1: celluar connection
 //	 2: wifi connection
-- (NetworkReachabilityConnectionMode)_getConnectionModeWithFlags:(SCNetworkReachabilityFlags)flags
+- (FBNetworkReachabilityConnectionMode)_getConnectionModeWithFlags:(SCNetworkReachabilityFlags)flags
 {
 	BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
 	BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
 	if (isReachable && !needsConnection) {
 		if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
-			return kNetworkReachableWWAN;
+			return FBNetworkReachableWWAN;
 		}
 		
 		if ([self _getIPAddressWiFilEnabled:YES]) {
-			return kNetworkReachableWiFi;
+			return FBNetworkReachableWiFi;
 		}
 		
 	}
-	return kNetworkReachableNon;	
+	return FBNetworkReachableNon;	
 }
 
 
@@ -217,14 +217,29 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 //------------------------------------------------------------------------------
 - (BOOL)reachable
 {
-    if (self.connectionMode == kNetworkReachableWiFi ||
-        self.connectionMode == kNetworkReachableWWAN) {
+    if (self.connectionMode == FBNetworkReachableWiFi ||
+        self.connectionMode == FBNetworkReachableWWAN) {
         return YES;
     } else {
         return NO;
     }
 }
-
+- (FBNetworkReachabilityConnectionMode)connectionMode
+{
+    @synchronized (self) {
+        if (connectionMode_ == FBNetworkReachableUninitialization) {
+            [[NSRunLoop currentRunLoop]
+             runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+        }
+        return connectionMode_;
+    }
+}
+- (void)setConnectionMode:(FBNetworkReachabilityConnectionMode)connectionMode
+{
+    @synchronized (self) {
+        connectionMode_ = connectionMode;
+    }
+}
 
 //------------------------------------------------------------------------------
 #pragma mark -
@@ -235,19 +250,19 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	NSString* desc = nil;
 	
 	switch (self.connectionMode) {
-		case kNetworkReachableUninitialization:
+		case FBNetworkReachableUninitialization:
 			desc = @"Not initialized";
 			break;
             
-		case kNetworkReachableNon:
+		case FBNetworkReachableNon:
 			desc = @"Not available";
 			break;
 			
-		case kNetworkReachableWWAN:
+		case FBNetworkReachableWWAN:
 			desc = @"WWAN";
 			break;
 			
-		case kNetworkReachableWiFi:
+		case FBNetworkReachableWiFi:
 			desc = @"WiFi";
 			break;
 			
