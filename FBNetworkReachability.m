@@ -145,7 +145,6 @@ static NSMutableDictionary* networkReachabilities_;
 {
 	self.connectionMode = [self _getConnectionModeWithFlags:flags];
     self.ipaddress = [self _getIPAddressWiFilEnabled:NO];
-    NSLog(@"ip: %@", self.ipaddress);
 }
 
 // call back function
@@ -155,7 +154,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	
 	FBNetworkReachability* noteObject = (FBNetworkReachability*)info;
 	[noteObject _updateConnectionModeWithFlags:flags];
-    NSLog(@"[INFO] Connection mode changed: %@", noteObject);
+//    NSLog(@"[INFO] Connection mode changed: %@", noteObject);
 
 	[[NSNotificationCenter defaultCenter]
 		postNotificationName:FBNetworkReachabilityDidChangeNotification object:noteObject];
@@ -226,13 +225,15 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 }
 - (FBNetworkReachabilityConnectionMode)connectionMode
 {
+    FBNetworkReachabilityConnectionMode mode;
     @synchronized (self) {
-        if (connectionMode_ == FBNetworkReachableUninitialization) {
-            [[NSRunLoop currentRunLoop]
-             runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-        }
-        return connectionMode_;
+        mode = connectionMode_;
     }
+    if (mode == FBNetworkReachableUninitialization) {
+        [[NSRunLoop currentRunLoop]
+         runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+    }
+    return connectionMode_;
 }
 - (void)setConnectionMode:(FBNetworkReachabilityConnectionMode)connectionMode
 {
