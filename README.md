@@ -64,7 +64,7 @@ Features
 - FBNetworkReachabiity posts the newest network rechability change.
 - The instances has same URL points to same instance internally.
 - Thread-safe
-
+- Requirements: SystemConfiguration.framework
 
 Customize
 ---------
@@ -77,9 +77,9 @@ Installation
 
 You should copy below files to your projects.
 
- FBNetworkReachability.h
- FBNetworkReachability.m
-
+	FBNetworkReachability.h
+	FBNetworkReachability.m
+	SystemConfiguration.framework
 
 
 License

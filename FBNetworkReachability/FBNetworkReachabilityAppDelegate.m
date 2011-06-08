@@ -38,7 +38,7 @@
     [self.window makeKeyAndVisible];
     
     self.history = [NSMutableArray array];
-    self.networkReachability = [FBNetworkReachability networkReachabilityWithHostname:@"www.google.com"];
+    self.networkReachability = [FBNetworkReachability networkReachabilityWithHostname:@"xcatsan.com"];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(_didChangeConnectionMode:) 
                                                  name:FBNetworkReachabilityDidChangeNotification
