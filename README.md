@@ -7,17 +7,10 @@ You can use FBNetworkReachabilty class to get network reachability on iOS device
 Usage
 -----
 
-(1) Initialization
+(1) Getting connection mode
 
-	FBNetworkReachability* network =
-		[FBNetworkReachability networkReachabilityWithHostname:@"http://xcatsan.com/"];
-
-To get an instance you must pass a valid URL.
-
-
-(2) Getting connection mode
-
-	FBNetworkReachabilityConnectionMode mode = network.connectionMode;
+	FBNetworkReachabilityConnectionMode mode =
+		[FBNetworkReachability sharedInstance].connectionMode;
 	switch (mode) {
 		case FBNetworkReachableNon:
 		break;
@@ -34,7 +27,7 @@ You can get the connection mode from 'connectionMode' property.
 
 (3) Checking reachability
 
-	if (network.reachable) {
+	if ([FBNetworkReachability sharedInstance].reachable) {
 		:
 	}
 
@@ -50,6 +43,7 @@ FBNetworkReachability posts FBNetworkReachabilityDidChangeNotification when the 
 		   selector:@selector(didChangeNetworkReachability:)
 		       name:FBNetworkReachabilityDidChangeNotification
 		     object:nil];
+	[FBNetworkReachability startNotifier];
 
 	- (void)didChangeNetworkReachability:(NSNotification*)notification
 	{
