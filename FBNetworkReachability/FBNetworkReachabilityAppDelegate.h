@@ -16,7 +16,6 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) IBOutlet UITableView* tableView;
-@property (nonatomic, retain) FBNetworkReachability* networkReachability;
 @property (nonatomic, retain) NSMutableArray* history;
 
 @end

@@ -26,14 +26,9 @@
 #import <ifaddrs.h>
 #import <net/if.h>
 
-static NSMutableDictionary* networkReachabilities_;
-
-
 @interface FBNetworkReachability()
 @property (assign) FBNetworkReachabilityConnectionMode connectionMode;
 @property (copy) NSString* ipaddress;
-- (BOOL)_startNotifier;
-- (void)_stopNotifier;
 @end
 
 
@@ -46,22 +41,29 @@ static NSMutableDictionary* networkReachabilities_;
 #pragma mark -
 #pragma mark Initialization and deallocation
 //------------------------------------------------------------------------------
-- (id)initWithHostname:(NSString*)hostname
+- (id)init
 {
     self = [super init];
 	if (self) {
-		reachability_=
-			SCNetworkReachabilityCreateWithName(kCFAllocatorDefault,
-											[hostname UTF8String]);
-		self.connectionMode = FBNetworkReachableUninitialization;		
-		[self _startNotifier];
+        struct sockaddr_in	sockaddr;
+        bzero(&sockaddr, sizeof(sockaddr));
+        sockaddr.sin_len = sizeof(sockaddr);
+        sockaddr.sin_family = AF_INET;
+        inet_aton("0.0.0.0", &sockaddr.sin_addr);        
+
+        reachability_ =
+            SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *) &sockaddr);
+
+		self.connectionMode = FBNetworkReachableUninitialization;
+        
+        [self refresh];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
-    [self _stopNotifier];
+    [self stopNotifier];
 	CFRelease(reachability_);
 	[super dealloc];
 }
@@ -154,7 +156,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	
 	FBNetworkReachability* noteObject = (FBNetworkReachability*)info;
 	[noteObject _updateConnectionModeWithFlags:flags];
-//    NSLog(@"[INFO] Connection mode changed: %@", noteObject);
+    NSLog(@"[INFO] Connection mode changed: %@ [%x]", noteObject, flags);
 
 	[[NSNotificationCenter defaultCenter]
 		postNotificationName:FBNetworkReachabilityDidChangeNotification object:noteObject];
@@ -162,8 +164,12 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	[myPool release];
 }
 
-- (BOOL)_startNotifier
+- (BOOL)startNotifier
 {
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:FBNetworkReachabilityDidChangeNotification
+                      object:self];
+    
 	BOOL ret = NO;
 	SCNetworkReachabilityContext context = {0, self, NULL, NULL, NULL};
 	if(SCNetworkReachabilitySetCallback(reachability_, ReachabilityCallback, &context))
@@ -177,7 +183,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	return ret;
 }	
 
-- (void)_stopNotifier
+- (void)stopNotifier
 {
 	if(reachability_!= NULL)
 	{
@@ -190,24 +196,28 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 #pragma mark -
 #pragma mark API
 //------------------------------------------------------------------------------
-+ (FBNetworkReachability*)networkReachabilityWithHostname:(NSString*)hostname
+FBNetworkReachability* sharedInstance_ = nil;
+
++ (FBNetworkReachability*)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        networkReachabilities_ = [[NSMutableDictionary alloc] init];
+        sharedInstance_ = [[self alloc] init];
     });
-    FBNetworkReachability* networkReachability = [networkReachabilities_ objectForKey:hostname];
-    if (networkReachability == nil) {
-        networkReachability = [[self alloc] initWithHostname:hostname];
-        [networkReachabilities_ setObject:networkReachability forKey:hostname];
-        [networkReachability release];
-    }
-    return networkReachability;
+
+    return sharedInstance_;
 }
 
 - (NSString*)IPAddress
 {
     return [self _getIPAddressWiFilEnabled:NO];
+}
+
+- (void)refresh
+{
+    SCNetworkReachabilityFlags flags = 0;
+    SCNetworkReachabilityGetFlags(reachability_, &flags);
+    [self _updateConnectionModeWithFlags:flags];
 }
 
 //------------------------------------------------------------------------------
@@ -223,18 +233,17 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
         return NO;
     }
 }
+
 - (FBNetworkReachabilityConnectionMode)connectionMode
 {
-    FBNetworkReachabilityConnectionMode mode;
+    if (connectionMode_ == FBNetworkReachableUninitialization) {
+        [self refresh];
+    }
     @synchronized (self) {
-        mode = connectionMode_;
+        return connectionMode_;
     }
-    if (mode == FBNetworkReachableUninitialization) {
-        [[NSRunLoop currentRunLoop]
-         runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-    }
-    return connectionMode_;
 }
+
 - (void)setConnectionMode:(FBNetworkReachabilityConnectionMode)connectionMode
 {
     @synchronized (self) {

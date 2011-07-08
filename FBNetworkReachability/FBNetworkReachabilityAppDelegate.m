@@ -16,20 +16,29 @@
 
 @synthesize tableView = tableView_;
 @synthesize history;
-@synthesize networkReachability;
 
+- (void)_didChangeNetworkReachability:(FBNetworkReachability*)networkReachability
+{
+    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [networkReachability description], @"ConnectionMode",
+                          networkReachability.ipaddress, @"IPAddress",
+                          [NSDate date], @"Timestamp",
+                          nil];
+    [self.history insertObject:dict atIndex:0];
+    [self.tableView reloadData];    
+}
 
 - (void)_didChangeConnectionMode:(NSNotification*)notification
 {
     NSLog(@"%@", notification);
-    FBNetworkReachability* object = [notification object];
-    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [object description], @"ConnectionMode",
-                          object.ipaddress, @"IPAddress",
-                          [NSDate date], @"Timestamp",
-                          nil];
-    [self.history insertObject:dict atIndex:0];
-    [self.tableView reloadData];
+    [self _didChangeNetworkReachability:[notification object]];
+}
+
+- (void)_didFireTimer:(NSTimer*)timer
+{
+    FBNetworkReachability* networkReachability = [FBNetworkReachability sharedInstance];
+    [networkReachability refresh];
+    [self _didChangeNetworkReachability:networkReachability];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -38,12 +47,21 @@
     [self.window makeKeyAndVisible];
     
     self.history = [NSMutableArray array];
-    self.networkReachability = [FBNetworkReachability networkReachabilityWithHostname:@"xcatsan.com"];
+
+    // [1] test for async
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(_didChangeConnectionMode:) 
                                                  name:FBNetworkReachabilityDidChangeNotification
                                                object:nil];
+
+    [[FBNetworkReachability sharedInstance] startNotifier];
     
+    // [2] test for sync
+    [NSTimer scheduledTimerWithTimeInterval:10.0
+                                     target:self
+                                   selector:@selector(_didFireTimer:)
+                                   userInfo:nil
+                                    repeats:YES];
     return YES;
 }
 

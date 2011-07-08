@@ -41,6 +41,9 @@ typedef enum {
 @property (assign, readonly) FBNetworkReachabilityConnectionMode connectionMode;
 @property (assign, readonly) BOOL reachable;
 @property (copy, readonly) NSString* ipaddress;
-+ (FBNetworkReachability*)networkReachabilityWithHostname:(NSString *)hostname;
++ (FBNetworkReachability*)sharedInstance;
+- (void)refresh;
+- (BOOL)startNotifier;
+- (void)stopNotifier;
 
 @end
