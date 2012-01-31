@@ -43,7 +43,7 @@ FBNetworkReachability posts FBNetworkReachabilityDidChangeNotification when the 
 		   selector:@selector(didChangeNetworkReachability:)
 		       name:FBNetworkReachabilityDidChangeNotification
 		     object:nil];
-	[FBNetworkReachability startNotifier];
+	[[FBNetworkReachability sharedInstance] startNotifier];
 
 	- (void)didChangeNetworkReachability:(NSNotification*)notification
 	{

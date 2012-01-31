@@ -213,6 +213,9 @@
 /* Begin PBXProject section */
 		4C1A09D71378B808009D78F0 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 4C1A09DA1378B808009D78F0 /* Build configuration list for PBXProject "FBNetworkReachability" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
