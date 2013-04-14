@@ -64,7 +64,9 @@
 - (void) dealloc
 {
     [self stopNotifier];
-	CFRelease(reachability_);
+	if (reachability_) {
+		CFRelease(reachability_);
+	}
 	[super dealloc];
 }
 
