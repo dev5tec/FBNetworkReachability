@@ -24,6 +24,9 @@
 		4C1A0A201378B847009D78F0 /* FBNetworkReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */; };
 		4C1A0A2D1378BA9D009D78F0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A0A2C1378BA9D009D78F0 /* SystemConfiguration.framework */; };
 		4C1A0A981378E053009D78F0 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1A0A971378E053009D78F0 /* RootViewController.xib */; };
+		BC0E4F4718DE3CA000A3199C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC0E4F4618DE3CA000A3199C /* Default-568h@2x.png */; };
+		BC0E4F4A18DE404500A3199C /* FBNetworkReachability.podspec in Resources */ = {isa = PBXBuildFile; fileRef = BC0E4F4918DE404500A3199C /* FBNetworkReachability.podspec */; };
+		BC0E4F4C18DE40AD00A3199C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = BC0E4F4B18DE40AD00A3199C /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,9 @@
 		4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBNetworkReachability.m; sourceTree = "<group>"; };
 		4C1A0A2C1378BA9D009D78F0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4C1A0A971378E053009D78F0 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
+		BC0E4F4618DE3CA000A3199C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		BC0E4F4918DE404500A3199C /* FBNetworkReachability.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBNetworkReachability.podspec; sourceTree = "<group>"; };
+		BC0E4F4B18DE40AD00A3199C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,9 +94,10 @@
 		4C1A09D51378B808009D78F0 = {
 			isa = PBXGroup;
 			children = (
-				4C1A0A211378B86A009D78F0 /* FBNetworkReachability */,
-				4C1A09EA1378B809009D78F0 /* TestApplication */,
-				4C1A0A041378B809009D78F0 /* FBNetworkReachabilityTests */,
+				BC0E4F4818DE403B00A3199C /* CocoaPods */,
+				4C1A0A211378B86A009D78F0 /* Classes */,
+				4C1A09EA1378B809009D78F0 /* Examples */,
+				4C1A0A041378B809009D78F0 /* Tests */,
 				4C1A09E31378B809009D78F0 /* Frameworks */,
 				4C1A09E11378B809009D78F0 /* Products */,
 			);
@@ -116,7 +123,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4C1A09EA1378B809009D78F0 /* TestApplication */ = {
+		4C1A09EA1378B809009D78F0 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
 				4C1A09F31378B809009D78F0 /* FBNetworkReachabilityAppDelegate.h */,
@@ -125,13 +132,13 @@
 				4C1A0A971378E053009D78F0 /* RootViewController.xib */,
 				4C1A09EB1378B809009D78F0 /* Supporting Files */,
 			);
-			name = TestApplication;
-			path = FBNetworkReachability;
+			path = Examples;
 			sourceTree = "<group>";
 		};
 		4C1A09EB1378B809009D78F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BC0E4F4618DE3CA000A3199C /* Default-568h@2x.png */,
 				4C1A09EC1378B809009D78F0 /* FBNetworkReachability-Info.plist */,
 				4C1A09ED1378B809009D78F0 /* InfoPlist.strings */,
 				4C1A09F01378B809009D78F0 /* FBNetworkReachability-Prefix.pch */,
@@ -140,14 +147,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		4C1A0A041378B809009D78F0 /* FBNetworkReachabilityTests */ = {
+		4C1A0A041378B809009D78F0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				4C1A0A0B1378B809009D78F0 /* FBNetworkReachabilityTests.h */,
 				4C1A0A0D1378B809009D78F0 /* FBNetworkReachabilityTests.m */,
 				4C1A0A051378B809009D78F0 /* Supporting Files */,
 			);
-			path = FBNetworkReachabilityTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		4C1A0A051378B809009D78F0 /* Supporting Files */ = {
@@ -160,13 +167,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		4C1A0A211378B86A009D78F0 /* FBNetworkReachability */ = {
+		4C1A0A211378B86A009D78F0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				4C1A0A1D1378B847009D78F0 /* FBNetworkReachability.h */,
 				4C1A0A1E1378B847009D78F0 /* FBNetworkReachability.m */,
 			);
-			name = FBNetworkReachability;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		BC0E4F4818DE403B00A3199C /* CocoaPods */ = {
+			isa = PBXGroup;
+			children = (
+				BC0E4F4918DE404500A3199C /* FBNetworkReachability.podspec */,
+				BC0E4F4B18DE40AD00A3199C /* LICENSE */,
+			);
+			name = CocoaPods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +230,7 @@
 		4C1A09D71378B808009D78F0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 4C1A09DA1378B808009D78F0 /* Build configuration list for PBXProject "FBNetworkReachability" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -239,8 +255,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0E4F4C18DE40AD00A3199C /* LICENSE in Resources */,
 				4C1A09EF1378B809009D78F0 /* InfoPlist.strings in Resources */,
+				BC0E4F4718DE3CA000A3199C /* Default-568h@2x.png in Resources */,
 				4C1A09F81378B809009D78F0 /* MainWindow.xib in Resources */,
+				BC0E4F4A18DE404500A3199C /* FBNetworkReachability.podspec in Resources */,
 				4C1A0A981378E053009D78F0 /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,7 +352,6 @@
 		4C1A0A0F1378B809009D78F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -343,6 +361,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -350,7 +369,6 @@
 		4C1A0A101378B809009D78F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
@@ -366,11 +384,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FBNetworkReachability/FBNetworkReachability-Prefix.pch";
-				INFOPLIST_FILE = "FBNetworkReachability/FBNetworkReachability-Info.plist";
+				GCC_PREFIX_HEADER = "Examples/FBNetworkReachability-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "Examples/FBNetworkReachability-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -380,10 +400,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FBNetworkReachability/FBNetworkReachability-Prefix.pch";
-				INFOPLIST_FILE = "FBNetworkReachability/FBNetworkReachability-Info.plist";
+				GCC_PREFIX_HEADER = "Examples/FBNetworkReachability-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "Examples/FBNetworkReachability-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -401,6 +423,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FBNetworkReachabilityTests/FBNetworkReachabilityTests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "FBNetworkReachabilityTests/FBNetworkReachabilityTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -423,6 +446,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FBNetworkReachabilityTests/FBNetworkReachabilityTests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "FBNetworkReachabilityTests/FBNetworkReachabilityTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",

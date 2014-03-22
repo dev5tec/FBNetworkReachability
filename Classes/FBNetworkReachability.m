@@ -27,15 +27,16 @@
 #import <net/if.h>
 
 @interface FBNetworkReachability()
+{
+    SCNetworkReachabilityRef _reachability;
+}
 @property (assign) FBNetworkReachabilityConnectionMode connectionMode;
 @property (copy) NSString* ipaddress;
 @end
 
 
 @implementation FBNetworkReachability
-
-@synthesize connectionMode = connectionMode_;
-@synthesize ipaddress;
+@synthesize connectionMode = _connectionMode;
 
 //------------------------------------------------------------------------------
 #pragma mark -
@@ -51,7 +52,7 @@
         sockaddr.sin_family = AF_INET;
         inet_aton("0.0.0.0", &sockaddr.sin_addr);        
 
-        reachability_ =
+        _reachability =
             SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *) &sockaddr);
 
 		self.connectionMode = FBNetworkReachableUninitialization;
@@ -64,10 +65,9 @@
 - (void) dealloc
 {
     [self stopNotifier];
-	if (reachability_) {
-		CFRelease(reachability_);
+	if (_reachability) {
+		CFRelease(_reachability);
 	}
-	[super dealloc];
 }
 
 
@@ -154,16 +154,14 @@
 // call back function
 static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
 {
-	NSAutoreleasePool* myPool = [[NSAutoreleasePool alloc] init];
-	
-	FBNetworkReachability* noteObject = (FBNetworkReachability*)info;
-	[noteObject _updateConnectionModeWithFlags:flags];
-    NSLog(@"[INFO] Connection mode changed: %@ [%x]", noteObject, flags);
-
-	[[NSNotificationCenter defaultCenter]
-		postNotificationName:FBNetworkReachabilityDidChangeNotification object:noteObject];
-
-	[myPool release];
+	@autoreleasepool {
+        FBNetworkReachability* noteObject = (FBNetworkReachability*)CFBridgingRelease(info);
+        [noteObject _updateConnectionModeWithFlags:flags];
+        NSLog(@"[INFO] Connection mode changed: %@ [%x]", noteObject, flags);
+        
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:FBNetworkReachabilityDidChangeNotification object:noteObject];
+    }
 }
 
 - (BOOL)startNotifier
@@ -173,11 +171,11 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
                       object:self];
     
 	BOOL ret = NO;
-	SCNetworkReachabilityContext context = {0, self, NULL, NULL, NULL};
-	if(SCNetworkReachabilitySetCallback(reachability_, ReachabilityCallback, &context))
+	SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
+	if(SCNetworkReachabilitySetCallback(_reachability, ReachabilityCallback, &context))
 	{
 		if(SCNetworkReachabilityScheduleWithRunLoop(
-													reachability_, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode))
+													_reachability, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode))
 		{
 			ret = YES;
 		}
@@ -187,9 +185,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 - (void)stopNotifier
 {
-	if(reachability_!= NULL)
+	if(_reachability!= NULL)
 	{
-		SCNetworkReachabilityUnscheduleFromRunLoop(reachability_, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+		SCNetworkReachabilityUnscheduleFromRunLoop(_reachability, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	}
 }
 
@@ -198,16 +196,16 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 #pragma mark -
 #pragma mark API
 //------------------------------------------------------------------------------
-FBNetworkReachability* sharedInstance_ = nil;
+FBNetworkReachability* _sharedInstance = nil;
 
 + (FBNetworkReachability*)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance_ = [[self alloc] init];
+        _sharedInstance = [[self alloc] init];
     });
 
-    return sharedInstance_;
+    return _sharedInstance;
 }
 
 - (NSString*)IPAddress
@@ -218,7 +216,7 @@ FBNetworkReachability* sharedInstance_ = nil;
 - (void)refresh
 {
     SCNetworkReachabilityFlags flags = 0;
-    SCNetworkReachabilityGetFlags(reachability_, &flags);
+    SCNetworkReachabilityGetFlags(_reachability, &flags);
     [self _updateConnectionModeWithFlags:flags];
 }
 
@@ -238,18 +236,18 @@ FBNetworkReachability* sharedInstance_ = nil;
 
 - (FBNetworkReachabilityConnectionMode)connectionMode
 {
-    if (connectionMode_ == FBNetworkReachableUninitialization) {
+    if (_connectionMode == FBNetworkReachableUninitialization) {
         [self refresh];
     }
     @synchronized (self) {
-        return connectionMode_;
+        return _connectionMode;
     }
 }
 
 - (void)setConnectionMode:(FBNetworkReachabilityConnectionMode)connectionMode
 {
     @synchronized (self) {
-        connectionMode_ = connectionMode;
+        _connectionMode = connectionMode;
     }
 }
 

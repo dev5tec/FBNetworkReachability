@@ -23,19 +23,17 @@
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-typedef enum {
-	FBNetworkReachableUninitialization = 0,
+
+typedef NS_ENUM(NSInteger, FBNetworkReachabilityConnectionMode) {
+    FBNetworkReachableUninitialization = 0,
 	FBNetworkReachableNon,
 	FBNetworkReachableWiFi,
 	FBNetworkReachableWWAN
-} FBNetworkReachabilityConnectionMode;
+};
 
 #define FBNetworkReachabilityDidChangeNotification @"FBNetworkReachabilityDidChangeNotification"
 
-@interface FBNetworkReachability : NSObject {
-
-	SCNetworkReachabilityRef reachability_;
-}
+@interface FBNetworkReachability : NSObject
 
 // API
 @property (assign, readonly) FBNetworkReachabilityConnectionMode connectionMode;
