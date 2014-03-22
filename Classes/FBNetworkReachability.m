@@ -155,7 +155,7 @@
 static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
 {
 	@autoreleasepool {
-        FBNetworkReachability* noteObject = (FBNetworkReachability*)CFBridgingRelease(info);
+        FBNetworkReachability* noteObject = (__bridge FBNetworkReachability*)info;
         [noteObject _updateConnectionModeWithFlags:flags];
         NSLog(@"[INFO] Connection mode changed: %@ [%x]", noteObject, flags);
         
