@@ -38,8 +38,9 @@ typedef NS_ENUM(NSInteger, FBNetworkReachabilityConnectionMode) {
 // API
 @property (assign, readonly) FBNetworkReachabilityConnectionMode connectionMode;
 @property (assign, readonly) BOOL reachable;
-@property (copy, readonly) NSString* ipaddress;
+
 + (FBNetworkReachability*)sharedInstance;
+- (id)initWithHostName:(NSString*)hostName;
 - (void)refresh;
 - (BOOL)startNotifier;
 - (void)stopNotifier;

@@ -21,7 +21,6 @@
 {
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
                           [networkReachability description], @"ConnectionMode",
-                          networkReachability.ipaddress, @"IPAddress",
                           [NSDate date], @"Timestamp",
                           nil];
     [self.history insertObject:dict atIndex:0];
@@ -44,6 +43,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    UIViewController* vc = [[UIViewController alloc]initWithNibName:nil bundle:nil];
+    self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
     
     self.history = [NSMutableArray array];
@@ -123,15 +124,8 @@
         
     }
     NSDictionary* dict = [self.history objectAtIndex:indexPath.row];
-    NSString* ipaddress = [dict objectForKey:@"IPAddress"];
     NSString* title = nil;
-    if (ipaddress) {
-        title = [NSString stringWithFormat:@"%@ [%@]",
-                 [dict objectForKey:@"ConnectionMode"],
-                 ipaddress];
-    } else {
-        title = [dict objectForKey:@"ConnectionMode"];
-    }
+    title = [dict objectForKey:@"ConnectionMode"];
     cell.textLabel.text = title;
     cell.detailTextLabel.text = [[dict objectForKey:@"Timestamp"] description];
     

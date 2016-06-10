@@ -31,7 +31,6 @@
     SCNetworkReachabilityRef _reachability;
 }
 @property (assign) FBNetworkReachabilityConnectionMode connectionMode;
-@property (copy) NSString* ipaddress;
 @end
 
 
@@ -44,23 +43,23 @@
 //------------------------------------------------------------------------------
 - (id)init
 {
+    return [self initWithHostName:@"google.com"];
+}
+
+- (id)initWithHostName:(NSString*)hostName
+{
     self = [super init];
-	if (self) {
-        struct sockaddr_in	sockaddr;
-        bzero(&sockaddr, sizeof(sockaddr));
-        sockaddr.sin_len = sizeof(sockaddr);
-        sockaddr.sin_family = AF_INET;
-        inet_aton("0.0.0.0", &sockaddr.sin_addr);        
-
+    if (self) {
         _reachability =
-            SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *) &sockaddr);
-
-		self.connectionMode = FBNetworkReachableUninitialization;
+        SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
+        
+        self.connectionMode = FBNetworkReachableUninitialization;
         
         [self refresh];
-	}
-	return self;
+    }
+    return self;
 }
+
 
 - (void) dealloc
 {
@@ -75,53 +74,6 @@
 #pragma mark -
 #pragma mark Private
 //------------------------------------------------------------------------------
-- (NSString*)_getIPAddressWiFilEnabled:(BOOL)wifiEnabled
-{
-    // priority:
-    // (1) WiFi "en0", "en1", ...
-    // (2) WWAN "pdp_ip0", ...
-    //
-    // memo:
-    // name=pdp_ip0
-    // addr=126.202.8.39
-
-	struct ifaddrs * addrs;
-	const struct ifaddrs * cursor;
-    
-    NSString* addressStringForWiFi = nil;
-    NSString* addressStringForWWAN = nil;
-	
-	if (getifaddrs(&addrs) == 0) {
-		cursor = addrs;
-		while (cursor != NULL) {
-			if (cursor->ifa_addr->sa_family == AF_INET
-				&& (cursor->ifa_flags & IFF_LOOPBACK) == 0) {
-				NSString *name =
-				[NSString stringWithUTF8String:cursor->ifa_name];
-				
-                // found the WiFi adapter
-				if ([name isEqualToString:@"en0"] ||	// iPhone
-					[name isEqualToString:@"en1"]) {	// Simulator (Mac)
-					addressStringForWiFi = [NSString stringWithUTF8String:
-                                            inet_ntoa(((struct sockaddr_in *)cursor->ifa_addr)->sin_addr)];
-				} else {
-                    addressStringForWWAN = [NSString stringWithUTF8String:
-                                            inet_ntoa(((struct sockaddr_in *)cursor->ifa_addr)->sin_addr)];
-                }
-			}
-			
-			cursor = cursor->ifa_next;
-		}
-		freeifaddrs(addrs);
-	}
-    if (addressStringForWiFi) {
-        return addressStringForWiFi;
-    }
-    if (!wifiEnabled) {
-        return addressStringForWWAN;
-    }
-    return nil;
-}
 
 // return
 //	 0: no connection
@@ -135,11 +87,7 @@
 		if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
 			return FBNetworkReachableWWAN;
 		}
-		
-		if ([self _getIPAddressWiFilEnabled:YES]) {
-			return FBNetworkReachableWiFi;
-		}
-		
+        return FBNetworkReachableWiFi;
 	}
 	return FBNetworkReachableNon;	
 }
@@ -148,7 +96,6 @@
 - (void)_updateConnectionModeWithFlags:(SCNetworkReachabilityFlags)flags
 {
 	self.connectionMode = [self _getConnectionModeWithFlags:flags];
-    self.ipaddress = [self _getIPAddressWiFilEnabled:NO];
 }
 
 // call back function
@@ -206,11 +153,6 @@ FBNetworkReachability* _sharedInstance = nil;
     });
 
     return _sharedInstance;
-}
-
-- (NSString*)IPAddress
-{
-    return [self _getIPAddressWiFilEnabled:NO];
 }
 
 - (void)refresh
